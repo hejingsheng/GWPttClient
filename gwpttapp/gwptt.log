@@ -21693,3 +21693,127 @@ Access-
 1156492491 GWPTT join group(10002)
 1156492491 GWPTT join group(G-10002)
 1156492491 GWPTT event 2 result str {"result":0,"gid":10002,"priority":0,"creater":10006,"gname":"G-10002"}
+1215536440 GWPTT ptt main thread queue 0
+
+1215536441 GWPTT ptt http thread queue 0
+
+1215536441 GWPTT ptt main thread running
+
+1215536442 GWPTT ptt http thread running
+
+1215536445 GWPTT core thread running
+
+1215536493 GWPTT connecting...
+
+1215536534 GWPTT socket 2444 add to io 0
+1215536576 GWPTT socket 2444 have read event
+1215536576 GWPTT cmd=8100,Whole packet_size=c6(except CRC)
+1215536576 GWPTT recv cmd 8100
+1215536576 GWPTT on_login_ack: udp_server->address=116.205.22.253, port=43012
+1215536577 GWPTT on_login_ack: update_server->address=116.205.22.253, port=10000
+1215536577 GWPTT on_login_ack: msg_server->address=116.205.22.253, port=7883
+1215536577 GWPTT on_login_ack: dispatch_server->address=116.205.22.253, port=7001
+1215536577 GWPTT Orig: configtcp address=116.205.22.253, port=43011
+1215536577 GWPTT redirect to server 116.205.22.253:43011
+1215536577 GWPTT socket 2444 del from io 0
+1215536577 GWPTT login again connect voice server 68(0)
+1215536577 GWPTT server time 1778210419, local time 1215536577
+1215536578 GWPTT connecting...
+
+1215536619 GWPTT socket 2460 add to io 0
+1215536661 GWPTT socket 2460 have read event
+1215536661 GWPTT cmd=8100,Whole packet_size=5e(except CRC)
+1215536662 GWPTT recv cmd 8100
+1215536662 GWPTT heart_inter=60
+1215536662 GWPTT on_login_ack;pMsg->self is not NULL
+1215536662 GWPTT uid is 10004, default_group is 14574
+1215536662 GWPTT on_login_ack: result is 0
+1215536662 GWPTT login success
+1215536662 GWPTT login success
+1215536662 GWPTT socket 2444 add to io 1
+1215536663 GWPTT http service config 10004
+1215536663 GWPTT not start msg
+1215536663 GWPTT event 0 result str {"result":0,"name":"PTT_68037","uid":10004,"defaultGid":14574,"message":true,"crtgrp":true,"exitgrp":true,"dis_server_ip":"116.205.22.253","dis_server_port":7001}
+1215536704 GWPTT socket 2460 have read event
+1215536704 GWPTT cmd=ff00,Whole packet_size=7(except CRC)
+1215536704 GWPTT recv cmd ff00
+1215536705 GWPTT socket 2444 have read event
+1215536705 GWPTT CODEC_PROTOBUF payload udp pkt
+
+1215536705 GWPTT udp heart response
+1215536745 GWPTT socket 2460 have read event
+1215536745 GWPTT cmd=8400,Whole packet_size=17(except CRC)
+1215536745 GWPTT recv cmd 8400
+1215536745 GWPTT join group(14574)
+1215536746 GWPTT join group(G-14574)
+1215536746 GWPTT event 2 result str {"result":0,"gid":14574,"priority":0,"creater":10004,"gname":"G-14574"}
+1215548447 GWPTT not allow report gps
+1215548488 GWPTT socket 2460 have read event
+1215548488 GWPTT cmd=ff00,Whole packet_size=7(except CRC)
+1215548488 GWPTT recv cmd ff00
+1215548489 GWPTT socket 2444 have read event
+1215548489 GWPTT CODEC_PROTOBUF payload udp pkt
+
+1215548489 GWPTT udp heart response
+1215578463 GWPTT ptt main thread queue 0
+
+1215578463 GWPTT ptt http thread queue 0
+
+1215578467 GWPTT core thread running
+
+1215578467 GWPTT ptt main thread running
+
+1215578467 GWPTT ptt http thread running
+
+1215578492 GWPTT connecting...
+
+1215578561 GWPTT socket 2480 add to io 0
+1215578605 GWPTT socket 2480 have read event
+1215578605 GWPTT cmd=8100,Whole packet_size=c6(except CRC)
+1215578605 GWPTT recv cmd 8100
+1215578605 GWPTT on_login_ack: udp_server->address=116.205.22.253, port=43012
+1215578605 GWPTT on_login_ack: update_server->address=116.205.22.253, port=10000
+1215578605 GWPTT on_login_ack: msg_server->address=116.205.22.253, port=7883
+1215578606 GWPTT on_login_ack: dispatch_server->address=116.205.22.253, port=7001
+1215578606 GWPTT Orig: configtcp address=116.205.22.253, port=43011
+1215578606 GWPTT redirect to server 116.205.22.253:43011
+1215578606 GWPTT socket 2480 del from io 0
+1215578606 GWPTT login again connect voice server 68(0)
+1215578606 GWPTT server time 1778210461, local time 1215578606
+1215578607 GWPTT connecting...
+
+1215578671 GWPTT socket 2480 add to io 0
+1215578714 GWPTT socket 2480 have read event
+1215578714 GWPTT cmd=8100,Whole packet_size=5e(except CRC)
+1215578714 GWPTT recv cmd 8100
+1215578714 GWPTT heart_inter=60
+1215578714 GWPTT on_login_ack;pMsg->self is not NULL
+1215578714 GWPTT uid is 10004, default_group is 14574
+1215578714 GWPTT on_login_ack: result is 0
+1215578715 GWPTT login success
+1215578715 GWPTT login success
+1215578715 GWPTT socket 2512 add to io 1
+1215578715 GWPTT http service config 10004
+1215578715 GWPTT not start msg
+1215578715 GWPTT event 0 result str {"result":0,"name":"PTT_68037","uid":10004,"defaultGid":14574,"message":true,"crtgrp":true,"exitgrp":true,"dis_server_ip":"116.205.22.253","dis_server_port":7001}
+1215578756 GWPTT socket 2512 have read event
+1215578756 GWPTT CODEC_PROTOBUF payload udp pkt
+
+1215578756 GWPTT udp heart response
+1215578757 GWPTT socket 2480 have read event
+1215578757 GWPTT cmd=ff00,Whole packet_size=7(except CRC)
+1215578757 GWPTT recv cmd ff00
+1215578798 GWPTT socket 2480 have read event
+1215578798 GWPTT cmd=8400,Whole packet_size=17(except CRC)
+1215578799 GWPTT recv cmd 8400
+1215578799 GWPTT join group(14574)
+1215578799 GWPTT join group(G-14574)
+1215578799 GWPTT event 2 result str {"result":0,"gid":14574,"priority":0,"creater":10004,"gname":"G-14574"}
+1215591460 GWPTT not allow report gps
+1215591501 GWPTT socket 2512 have read event
+1215591501 GWPTT CODEC_PROTOBUF payload udp pkt
+
+1215591501 GWPTT udp heart response
+1215591502 GWPTT socket 2480 have read event
+1215591502 GWPTT cmd=ff00,Whole packet_size=7(except CRC)
+1215591503 GWPTT recv cmd ff00

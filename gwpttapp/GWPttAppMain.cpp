@@ -364,6 +364,7 @@ void GWPttAppMain::showEnterGroupDialog()
 	{
 		
 	}
+	delete dialog;
 }
 
 void GWPttAppMain::deleteGroup()

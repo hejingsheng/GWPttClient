@@ -2,8 +2,9 @@
 #include "GWPttManager.h"
 #include "GWPttAppMain.h"
 #include "GWPttConfig.h"
+#include "GWPttQRCodeDialog.h"
 
-const QString GWAPP_VERSION = "GW_APP_V1.0.1";
+const QString GWAPP_VERSION = "GW_APP_V1.0.2";
 
 GWPTTLoginWidget::GWPTTLoginWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::GWPttLogin)
@@ -19,6 +20,13 @@ void GWPTTLoginWidget::initEvent()
 	ui->editPort->setValidator(new QIntValidator(1024, 65535, this));
 	connect(ui->btnCancel, &QPushButton::clicked, this, &GWPTTLoginWidget::close);
 	connect(ui->btnLogin, &QPushButton::clicked, this, &GWPTTLoginWidget::loginPtt);
+	connect(ui->btnQRCode, &QPushButton::clicked, this, []() {
+		ConfigReader config;
+		QString deviceid = config.readValue<QString>("Device", "Id", "865223047568037");
+		GWPttQRCodeDialog dialog;
+		dialog.setQRCodeString(deviceid);
+		dialog.exec();
+	});
 
 	connect(this, &GWPTTLoginWidget::sendSignalToUI, this, &GWPTTLoginWidget::onLoginReport);
 

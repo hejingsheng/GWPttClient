@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GWPttQRCodeDialog.cpp" />
     <ClCompile Include="PcAudioDevice.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).moc</QtMocFileName>
@@ -173,6 +174,7 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
+    <ClCompile Include="qrcodegen.cpp" />
     <QtRcc Include="gwpttapp.qrc" />
     <ClCompile Include="cJSON.c" />
     <ClCompile Include="GWLog.cpp" />
@@ -184,6 +186,7 @@
     <QtUic Include="GWPttAppMain.ui" />
     <QtUic Include="GWPttEnterGrpDialog.ui" />
     <QtUic Include="gwpttlogin.ui" />
+    <QtUic Include="GWPttQRCodeDialog.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtTranslation Include="Translation_zh_CN.ts" />
@@ -194,6 +197,8 @@
   <ItemGroup>
     <ClInclude Include="cJSON.h" />
     <ClInclude Include="GWLog.h" />
+    <QtMoc Include="GWPttQRCodeDialog.h" />
+    <ClInclude Include="qrcodegen.hpp" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="GWPttAppMain.h" />
     <QtMoc Include="GWPttEnterGrpDialog.h" />
