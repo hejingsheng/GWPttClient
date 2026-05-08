@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/gwpttapp">
+        <file>PTT.png</file>
+    </qresource>
+</RCC>
