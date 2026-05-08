@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>GWPttQRCodeDialog</string>
+   <string>QRCode</string>
   </property>
   <widget class="QLabel" name="labelQRCode">
    <property name="geometry">
