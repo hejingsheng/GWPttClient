@@ -20,11 +20,11 @@ void GWPTTLoginWidget::initEvent()
 	ui->editPort->setValidator(new QIntValidator(1024, 65535, this));
 	connect(ui->btnCancel, &QPushButton::clicked, this, &GWPTTLoginWidget::close);
 	connect(ui->btnLogin, &QPushButton::clicked, this, &GWPTTLoginWidget::loginPtt);
-	connect(ui->btnQRCode, &QPushButton::clicked, this, []() {
+	connect(ui->btnQRCode, &QPushButton::clicked, this, [this]() {
 		ConfigReader config;
-		QString deviceid = config.readValue<QString>("Device", "Id", "865223047568037");
+		QString deviceId = ui->editDeviceId->text();
 		GWPttQRCodeDialog dialog;
-		dialog.setQRCodeString(deviceid);
+		dialog.setQRCodeString(deviceId);
 		dialog.exec();
 	});
 
