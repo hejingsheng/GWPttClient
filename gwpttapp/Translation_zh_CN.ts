@@ -220,7 +220,7 @@
     <message>
         <source>vaildtime</source>
         <translatorcomment>有效时间:</translatorcomment>
-        <translation type="obsolete">有效时间:</translation>
+        <translation type="unfinished">有效时间:</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -230,7 +230,7 @@
     <message>
         <source>openalarm</source>
         <translatorcomment>打开响铃</translatorcomment>
-        <translation type="obsolete">打开响铃</translation>
+        <translation type="unfinished">打开响铃</translation>
     </message>
     <message>
         <source>closealarm</source>
@@ -256,14 +256,6 @@
         <source>inputdevice</source>
         <translatorcomment>请输入设备ID(IMEI或MAC)</translatorcomment>
         <translation type="unfinished">请输入设备ID(IMEI或MAC)</translation>
-    </message>
-    <message>
-        <source>openalaram</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>validtime</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

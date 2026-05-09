@@ -220,7 +220,7 @@
     <message>
         <source>vaildtime</source>
         <translatorcomment>Valid time:</translatorcomment>
-        <translation type="obsolete">Valid time:</translation>
+        <translation type="unfinished">Valid time:</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -230,7 +230,7 @@
     <message>
         <source>openalarm</source>
         <translatorcomment>Open Alarm</translatorcomment>
-        <translation type="obsolete">Open Alaram</translation>
+        <translation type="unfinished">Open Alaram</translation>
     </message>
     <message>
         <source>closealarm</source>
@@ -256,14 +256,6 @@
         <source>inputdevice</source>
         <translatorcomment>Please input device id(IMEI or MAC)</translatorcomment>
         <translation type="unfinished">Please input device id(IMEI or MAC)</translation>
-    </message>
-    <message>
-        <source>openalaram</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>validtime</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -266,7 +266,7 @@ void GWPttAppMain::initEvent()
 		else if (type == 2)
 		{
 			QString title = QCoreApplication::translate("GWPttNoticeInfo", "Warning");
-			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "openalaram")+"!!!";
+			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "openalarm")+"!!!";
 			QMessageBox::information(this, title, msg);
 		}
 		else if (type == 4)
@@ -344,14 +344,14 @@ void GWPttAppMain::onGroupToken(const GroupOperate &token)
 	{
 		// new group token
 		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Newgrp") + token.name;
-		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "grptoken") + QString::number(token.token) + "\n"+ QCoreApplication::translate("GWPttNoticeInfo", "validtime") + QString::number(token.ttl) + "s";
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "grptoken") + QString::number(token.token) + "\n"+ QCoreApplication::translate("GWPttNoticeInfo", "vaildtime") + QString::number(token.ttl) + "s";
 		QMessageBox::information(this, title, msg);
 	}
 	else
 	{
 		// token
 		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Info");
-		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "grptoken") + QString::number(token.token) + "\n" + QCoreApplication::translate("GWPttNoticeInfo", "validtime") + QString::number(token.ttl) + "s";
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "grptoken") + QString::number(token.token) + "\n" + QCoreApplication::translate("GWPttNoticeInfo", "vaildtime") + QString::number(token.ttl) + "s";
 		QMessageBox::information(this, title, msg);
 	}
 }
