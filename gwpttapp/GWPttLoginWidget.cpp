@@ -4,7 +4,7 @@
 #include "GWPttConfig.h"
 #include "GWPttQRCodeDialog.h"
 
-const QString GWAPP_VERSION = "GW_APP_V1.0.2";
+const QString GWAPP_VERSION = "GW_APP_V1.1.0";
 
 GWPTTLoginWidget::GWPTTLoginWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::GWPttLogin)
@@ -76,22 +76,22 @@ void GWPTTLoginWidget::loginPtt()
 	QString password = "111111";
 	if (address.isEmpty() || deviceId.isEmpty())
 	{
-		QString title = "Error";
-		QString msg = "Please input server address";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "inputaddr");
 		QMessageBox::information(this, title, msg);
 		return;
 	}
 	if (portstr.isEmpty())
 	{
-		QString title = "Error";
-		QString msg = "Please input server port";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "inputport");
 		QMessageBox::information(this, title, msg);
 		return;
 	}
 	if (deviceId.isEmpty())
 	{
-		QString title = "Error";
-		QString msg = "Please input device id(IMEI or MAC)";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "inputdevice");
 		QMessageBox::information(this, title, msg);
 		return;
 	}

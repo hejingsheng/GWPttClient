@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>加入群组</string>
+   <string>EnterGrp</string>
   </property>
   <widget class="QRadioButton" name="radioSave">
    <property name="geometry">

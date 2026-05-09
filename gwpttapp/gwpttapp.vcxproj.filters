@@ -63,6 +63,9 @@
     <QtTranslation Include="Translation_zh_CN.ts">
       <Filter>Translation Files</Filter>
     </QtTranslation>
+    <QtTranslation Include="Translation_en_US.ts">
+      <Filter>Translation Files</Filter>
+    </QtTranslation>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="gwpttlogin.ui">

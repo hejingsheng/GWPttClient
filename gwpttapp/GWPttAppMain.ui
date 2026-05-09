@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>公网对讲</string>
+   <string>MainTitle</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="label">
@@ -40,7 +40,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>User</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -56,7 +56,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Group</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -72,7 +72,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>2026/05/05 16:12:30</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -312,7 +312,7 @@
    <widget class="QPushButton" name="btnPTT">
     <property name="geometry">
      <rect>
-      <x>85</x>
+      <x>90</x>
       <y>545</y>
       <width>100</width>
       <height>50</height>

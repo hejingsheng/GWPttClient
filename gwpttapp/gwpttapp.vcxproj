@@ -189,6 +189,7 @@
     <QtUic Include="GWPttQRCodeDialog.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtTranslation Include="Translation_en_US.ts" />
     <QtTranslation Include="Translation_zh_CN.ts" />
   </ItemGroup>
   <ItemGroup>

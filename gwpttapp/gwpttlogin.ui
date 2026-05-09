@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>公网对讲</string>
+   <string>loginTitle</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -81,7 +81,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Welcome to use GWPTT System</string>
+    <string>Title</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

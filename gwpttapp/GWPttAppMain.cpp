@@ -255,8 +255,8 @@ void GWPttAppMain::initEvent()
 	connect(this, &GWPttAppMain::nameChangeOrRecvInfo, this, [this](int type, QString data) {
 		if (type == 0)
 		{
-			QString title = "Info";
-			QString msg = "Recv txt:"+data;
+			QString title = QCoreApplication::translate("GWPttNoticeInfo", "Info");
+			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "recvtxt")+data;
 			QMessageBox::information(this, title, msg);
 		}
 		else if (type == 1)
@@ -265,14 +265,14 @@ void GWPttAppMain::initEvent()
 		}
 		else if (type == 2)
 		{
-			QString title = "Warning";
-			QString msg = "Open Alarm!!!";
+			QString title = QCoreApplication::translate("GWPttNoticeInfo", "Warning");
+			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "openalaram")+"!!!";
 			QMessageBox::information(this, title, msg);
 		}
 		else if (type == 4)
 		{
-			QString title = "Warning";
-			QString msg = "Close Alarm!!!";
+			QString title = QCoreApplication::translate("GWPttNoticeInfo", "Warning");
+			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "closealarm") + "!!!";
 			QMessageBox::information(this, title, msg);
 		}
 		else if (type == 3)
@@ -300,8 +300,8 @@ void GWPttAppMain::queryGroup()
 	}
 	else
 	{
-		QString title = "Error";
-		QString msg = "Please Input Page Num!!!";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Input page");
 		QMessageBox::information(this, title, msg);
 	}
 }
@@ -330,6 +330,12 @@ void GWPttAppMain::shareGroup()
 		struct Group selectGrp = currentPageGrouplist_.at(row);
 		GWPttClient::getPtt()->shareGroup(selectGrp.gid);
 	}
+	else
+	{
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Select grp");
+		QMessageBox::information(this, title, msg);
+	}
 }
 
 void GWPttAppMain::onGroupToken(const GroupOperate &token)
@@ -337,15 +343,15 @@ void GWPttAppMain::onGroupToken(const GroupOperate &token)
 	if (token.name != "")
 	{
 		// new group token
-		QString title = "New group:" + token.name;
-		QString msg = "Group token:" + QString::number(token.token) + "\nValid time:" + QString::number(token.ttl) + "s";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Newgrp") + token.name;
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "grptoken") + QString::number(token.token) + "\n"+ QCoreApplication::translate("GWPttNoticeInfo", "validtime") + QString::number(token.ttl) + "s";
 		QMessageBox::information(this, title, msg);
 	}
 	else
 	{
 		// token
-		QString title = "Info";
-		QString msg = "Group token:" + QString::number(token.token) + "\nValid time:" + QString::number(token.ttl) + "s";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Info");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "grptoken") + QString::number(token.token) + "\n" + QCoreApplication::translate("GWPttNoticeInfo", "validtime") + QString::number(token.ttl) + "s";
 		QMessageBox::information(this, title, msg);
 	}
 }
@@ -384,8 +390,8 @@ void GWPttAppMain::deleteGroup()
 	}
 	else
 	{
-		QString title = "Error";
-		QString msg = "Please select a group";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Select grp");
 		QMessageBox::information(this, title, msg);
 	}
 }
@@ -409,15 +415,15 @@ void GWPttAppMain::onDeletOrExit(const GroupOperate &data)
 		}
 		int pageNum = (totalGroupSize_ % PTT_QUERY_PAGE_SIZE == 0) ? (totalGroupSize_ / PTT_QUERY_PAGE_SIZE) : (totalGroupSize_ / PTT_QUERY_PAGE_SIZE + 1);
 		ui.labelGrpTotalPage->setText("/"+QString::number(pageNum));
-		QString title = "Info";
-		QString msg = "Delete success";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Info");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Deletesuccess");
 		QMessageBox::information(this, title, msg);
 	}
 	else
 	{
 		// token
-		QString title = "Error";
-		QString msg = "Delete group error:" + QString::number(data.result);
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Deleteerror") + QString::number(data.result);
 		QMessageBox::information(this, title, msg);
 	}
 }
@@ -432,7 +438,9 @@ void GWPttAppMain::switchGroup()
 	}
 	else
 	{
-
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Select grp");
+		QMessageBox::information(this, title, msg);
 	}
 }
 
@@ -445,25 +453,25 @@ void GWPttAppMain::onSpeakerInfo(const Speaker &speaker)
 {
 	if (speaker.name != "")
 	{
-		ui.labelSpeaker->setText(speaker.name + " is speaking");
+		ui.labelSpeaker->setText(speaker.name + QCoreApplication::translate("GWPttNoticeInfo", "speaking"));
 	}
 	else
 	{
-		ui.labelSpeaker->setText("IDLE");
+		ui.labelSpeaker->setText(QCoreApplication::translate("GWPttAppMainClass", "IDLE"));
 	}
 }
 
 void GWPttAppMain::onOperateFail(const int code)
 {
-	QString title = "Error";
+	QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
 	QString msg;
 	if (code == 0)
 	{
-		msg = "Operate fail";
+		msg = QCoreApplication::translate("GWPttNoticeInfo", "operatefail");
 	}
 	else
 	{
-		msg = "Operate fail error code:" + QString::number(code);
+		msg = QCoreApplication::translate("GWPttNoticeInfo", "operatefailwithcode") + QString::number(code);
 	}
 	QMessageBox::information(this, title, msg);
 }
@@ -485,8 +493,8 @@ void GWPttAppMain::tempCall()
 		}
 		else
 		{
-			QString title = "Error";
-			QString msg = "Please select a user";
+			QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "selcetuser");
 			QMessageBox::information(this, title, msg);
 		}
 	}
@@ -501,7 +509,7 @@ void GWPttAppMain::onTempCall(const int data)
 {
 	if (data == 0)
 	{
-		ui.labelGroup->setText("Temp Call.");
+		ui.labelGroup->setText(QCoreApplication::translate("GWPttAppMainClass", "Temp call")+".");
 		isTempCall = true;
 	}
 	else
@@ -524,15 +532,15 @@ void GWPttAppMain::queryUser()
 		}
 		else
 		{
-			QString title = "Error";
-			QString msg = "Please select a group";
+			QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Select grp");
 			QMessageBox::information(this, title, msg);
 		}
 	}
 	else
 	{
-		QString title = "Error";
-		QString msg = "Please Input Page Num!!!";
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Input page");
 		QMessageBox::information(this, title, msg);
 	}
 }
