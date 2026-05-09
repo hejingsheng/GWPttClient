@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "GWPTT"
-!define PRODUCT_VERSION "1.0.2"
+!define PRODUCT_VERSION "1.1.0"
 !define PRODUCT_PUBLISHER "GWSD, Inc."
 !define PRODUCT_WEB_SITE "http://www.hawk-sight.com"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\gwpttapp.exe"
