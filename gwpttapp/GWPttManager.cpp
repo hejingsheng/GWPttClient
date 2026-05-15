@@ -152,7 +152,7 @@ void GWPttClient::reportLocation(double lat, double lon, int type)
 
 void GWPttClient::sendSos(double lat, double lon, bool start)
 {
-	pttSendSos(uid, currentGrpId, 16, lat, lon, 1, start ? 0 : 1);
+	pttSendSos(uid, name.toStdString().c_str(), currentGrpId, currentGrpName.toStdString().c_str(), 16, lat, lon, 1, start ? 0 : 1);
 }
 
 void GWPttClient::logout()

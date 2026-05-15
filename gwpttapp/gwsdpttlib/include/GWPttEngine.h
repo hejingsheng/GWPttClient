@@ -121,7 +121,7 @@ DLL_EXPORT int pttQueryTmpGrp(int type);
 
 DLL_EXPORT int pttHeart(int battery, const char *net);
 
-DLL_EXPORT int pttSendSos(int sid, int rid, int type, double lat, double lon, char hasLoc, char status);
+DLL_EXPORT int pttSendSos(int sid, const char *sname, int rid, const char *rname, int type, double lat, double lon, char hasLoc, char status);
 
 DLL_EXPORT int pttSendSelfMsg(int id, int type, char *selfmsg, char offline);
 
