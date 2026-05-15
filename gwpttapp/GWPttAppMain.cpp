@@ -8,6 +8,7 @@ GWPttAppMain::GWPttAppMain(QWidget *parent)
 	: QMainWindow(parent)
 {
 	isTempCall = false;
+	isSos = false;
 	setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
 	ui.setupUi(this);
 }
@@ -203,6 +204,11 @@ void GWPttAppMain::onPttClientEvent(int event, void *data)
 	{
 		emit offline();
 	}
+	else if (event == PTT_CLIENT_EVENT_RECVSOS)
+	{
+		QString sos = (char*)data;
+		emit nameChangeOrRecvInfo(5, sos);
+	}
 }
 
 void GWPttAppMain::initView()
@@ -235,6 +241,13 @@ void GWPttAppMain::initEvent()
 	connect(ui.btnQueryUser, &QPushButton::clicked, this, &GWPttAppMain::queryUser);
 	connect(ui.btnTempCall, &QPushButton::clicked, this, &GWPttAppMain::tempCall);
 	connect(ui.btnLogout, &QPushButton::clicked, this, &GWPttAppMain::logout);
+	connect(ui.btnSos, &QPushButton::clicked, this, [this](){
+		ConfigReader config;
+		double lat = config.readValue<double>("GPS", "Latitude", 0.0);
+		double lon = config.readValue<double>("GPS", "Longitude", 0.0);
+		GWPttClient::getPtt()->sendSos(lat, lon, !this->isSos);
+		this->isSos = !this->isSos;
+	});
 	qRegisterMetaType<Group>();
 	qRegisterMetaType<QList<Group>>();
 	connect(this, &GWPttAppMain::groupListDataReady, this, &GWPttAppMain::onGroupListDataReady);
@@ -282,6 +295,11 @@ void GWPttAppMain::initEvent()
 				data = data.mid(0, 20);
 			}
 			ui.labelPosition->setText(data);
+		}
+		else if (type == 5)
+		{
+			QString title = "SOS";
+			QMessageBox::information(this, title, data);
 		}
 		else
 		{

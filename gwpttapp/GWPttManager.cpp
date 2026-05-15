@@ -150,6 +150,11 @@ void GWPttClient::reportLocation(double lat, double lon, int type)
 	pttReportLocationGps(lat, lon, type, uid);
 }
 
+void GWPttClient::sendSos(double lat, double lon, bool start)
+{
+	pttSendSos(uid, currentGrpId, 16, lat, lon, 1, start ? 0 : 1);
+}
+
 void GWPttClient::logout()
 {
 	pttLogout();
@@ -415,6 +420,13 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 		else
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "name change error");
+		}
+	}
+	else if (event == GW_PTT_EVENT_RECV_SOS)
+	{
+		if (callback != nullptr)
+		{
+			callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVSOS, (void*)data);
 		}
 	}
 	else if (event == GW_PTT_EVENT_LOGOUT || event == GW_PTT_EVENT_KICKOUT || event == GW_PTT_EVENT_ERROR || event == GW_PTT_EVENT_UNBIND)

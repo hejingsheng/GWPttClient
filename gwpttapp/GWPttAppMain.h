@@ -58,6 +58,9 @@ private:
 	void onPttPressed();
 	void onPttReleased();
 
+public:
+	bool isSos;
+
 private:
 	Ui::GWPttAppMainClass ui;
 	QTimer *uiTimer_;

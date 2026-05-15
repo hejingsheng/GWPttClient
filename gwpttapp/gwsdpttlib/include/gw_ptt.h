@@ -67,6 +67,7 @@ enum {
     GW_PTT_EVENT_QUERY_TMPGRP = 25,
     GW_PTT_EVENT_RECV_TEXT = 26,
     GW_PTT_EVENT_NAME_CHANGE = 27,
+    GW_PTT_EVENT_RECV_SOS = 28,
 };
 
 enum {
@@ -329,7 +330,7 @@ int gwPttSosMsg(int sid, const char *snm, int id, long long ms, double lat, doub
 
 int gwPttSendSelf(int rid, int type, char *data, int len, char offline);
 
-int gwPttSendText(int rid, int type, char *data, int len);
+int gwPttSendText(int rid, int type, char *data, int len, char sos);
 
 int gwPttAddDelGroupOfflineMsg(int group, int type, int act);
 
