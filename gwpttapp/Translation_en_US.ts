@@ -111,6 +111,15 @@
         <translatorcomment>PTT</translatorcomment>
         <translation type="unfinished">PTT</translation>
     </message>
+    <message>
+        <source>SOS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listen</source>
+        <translatorcomment>Listen</translatorcomment>
+        <translation type="unfinished">Listen</translation>
+    </message>
 </context>
 <context>
     <name>GWPttLogin</name>
@@ -203,6 +212,21 @@
         <translation type="unfinished">Delete success</translation>
     </message>
     <message>
+        <source>Success</source>
+        <translatorcomment>Success</translatorcomment>
+        <translation type="obsolete">Success</translation>
+    </message>
+    <message>
+        <source>Listening</source>
+        <translatorcomment>Listening</translatorcomment>
+        <translation type="unfinished">Listening</translation>
+    </message>
+    <message>
+        <source>Fail</source>
+        <translatorcomment>Fail</translatorcomment>
+        <translation type="obsolete">Fail</translation>
+    </message>
+    <message>
         <source>Deleteerror</source>
         <translatorcomment>Delete group error:</translatorcomment>
         <translation type="unfinished">Delete group error:</translation>
@@ -256,6 +280,14 @@
         <source>inputdevice</source>
         <translatorcomment>Please input device id(IMEI or MAC)</translatorcomment>
         <translation type="unfinished">Please input device id(IMEI or MAC)</translation>
+    </message>
+    <message>
+        <source>ListenSuccess</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ListenFail</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

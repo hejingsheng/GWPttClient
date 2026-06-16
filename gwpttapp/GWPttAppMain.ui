@@ -367,6 +367,19 @@
      <string>SOS</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnListen">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>600</y>
+      <width>45</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Listen</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

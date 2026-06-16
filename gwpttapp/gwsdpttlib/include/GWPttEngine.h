@@ -53,6 +53,8 @@ DLL_EXPORT int pttQueryGroup(void);
 
 DLL_EXPORT int pttQueryGroupByPage(int pageSize, int pageNum);
 
+DLL_EXPORT int pttQueryListenGroup(void);
+
 DLL_EXPORT int pttJoinGroup(int gid, int type);
 
 DLL_EXPORT int pttQueryMember(int gid, int type);
@@ -86,6 +88,8 @@ DLL_EXPORT int pttGroupEnter(int gid);
 DLL_EXPORT int pttGroupGeneralToken(int *gids, int num);
 
 DLL_EXPORT int pttGroupEnterByToken(int token, int type);
+
+DLL_EXPORT int pttGroupListen(int *gids, int num, int type);
 
 DLL_EXPORT int pttGetManagerInfo(void);
 

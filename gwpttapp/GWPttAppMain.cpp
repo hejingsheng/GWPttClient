@@ -209,6 +209,20 @@ void GWPttAppMain::onPttClientEvent(int event, void *data)
 		QString sos = (char*)data;
 		emit nameChangeOrRecvInfo(5, sos);
 	}
+	else if (event == PTT_CLIENT_EVENT_LISTEN_GRP)
+	{
+		if (data == nullptr)
+		{
+			emit nameChangeOrRecvInfo(6, "");
+			queryGroup();
+		}
+		else
+		{
+			int status = (int)data;
+			QString str = QString::number(status);
+			emit nameChangeOrRecvInfo(7, str);
+		}
+	}
 }
 
 void GWPttAppMain::initView()
@@ -248,6 +262,7 @@ void GWPttAppMain::initEvent()
 		GWPttClient::getPtt()->sendSos(lat, lon, !this->isSos);
 		this->isSos = !this->isSos;
 	});
+	connect(ui.btnListen, &QPushButton::clicked, this, &GWPttAppMain::listenGroup);
 	qRegisterMetaType<Group>();
 	qRegisterMetaType<QList<Group>>();
 	connect(this, &GWPttAppMain::groupListDataReady, this, &GWPttAppMain::onGroupListDataReady);
@@ -301,6 +316,18 @@ void GWPttAppMain::initEvent()
 			QString title = "SOS";
 			QMessageBox::information(this, title, data);
 		}
+		else if (type == 6)
+		{
+			QString title = QCoreApplication::translate("GWPttNoticeInfo", "Info");
+			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Success");
+			QMessageBox::information(this, title, msg);
+		}
+		else if (type == 7)
+		{
+			QString title = QCoreApplication::translate("GWPttNoticeInfo", "Info");
+			QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Fail") + ":" + data;
+			QMessageBox::information(this, title, msg);
+		}
 		else
 		{
 
@@ -328,8 +355,14 @@ void GWPttAppMain::onGroupListDataReady(const QList<Group> &list)
 {
 	ui.listGroup->clear();
 	for (struct Group grp : list) {
-		ui.listGroup->addItem(grp.name+"("+QString::number(grp.author)+")");
+		QString label = grp.name + "(" + QString::number(grp.author) + ")";
+		if (grp.monitor)
+		{
+			label += " " + QCoreApplication::translate("GWPttNoticeInfo", "Listening");
+		}
+		ui.listGroup->addItem(label);
 	}
+	currentPageGrouplist_.clear();
 	currentPageGrouplist_.append(list);
 	int pageNum = (totalGroupSize_ % PTT_QUERY_PAGE_SIZE == 0) ? (totalGroupSize_ / PTT_QUERY_PAGE_SIZE) : (totalGroupSize_ / PTT_QUERY_PAGE_SIZE + 1);
 	ui.labelGrpTotalPage->setText("/"+QString::number(pageNum));
@@ -497,6 +530,29 @@ void GWPttAppMain::onOperateFail(const int code)
 void GWPttAppMain::logout()
 {
 	GWPttClient::getPtt()->logout();
+}
+
+void GWPttAppMain::listenGroup()
+{
+	int row = ui.listGroup->currentRow();
+	if (row != -1)
+	{
+		struct Group selectGrp = currentPageGrouplist_.at(row);
+		if (selectGrp.monitor)
+		{
+			GWPttClient::getPtt()->listenGroup(selectGrp.gid, 0);
+		}
+		else
+		{
+			GWPttClient::getPtt()->listenGroup(selectGrp.gid, 1);
+		}
+	}
+	else
+	{
+		QString title = QCoreApplication::translate("GWPttNoticeInfo", "Error");
+		QString msg = QCoreApplication::translate("GWPttNoticeInfo", "Select grp");
+		QMessageBox::information(this, title, msg);
+	}
 }
 
 void GWPttAppMain::tempCall()

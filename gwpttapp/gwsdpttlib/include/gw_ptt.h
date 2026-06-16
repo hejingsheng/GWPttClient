@@ -170,6 +170,8 @@ enum {
     GW_MSG_STATUS_GROUP_TOKEN_ENTER = 18,
     GW_MSG_STATUS_UNBIND = 19,
     GW_MSG_STATUS_MANAGER_INFO = 20,
+    GW_MSG_STATUS_LISTEN_GROUP = 21,
+    GW_MSG_STATUS_QUERY_LISTEN_GROUP = 22,
 };
 
 enum {
@@ -285,6 +287,10 @@ int gwPttGroupOperate(char *data, int type, char **response);
 int gwPttGeneralToken(int *gids, int num, char **response);
 
 int gwPttEnterGroupByToken(int token, int type, char **response);
+
+int gwPttListenGroup(int *gids, int num, int type, char **response);
+
+int gwPttGetListenGroup(char **response);
 
 int gwPttGetManagerInfo(char **response);
 

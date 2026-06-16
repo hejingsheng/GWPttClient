@@ -27,6 +27,7 @@
 #define PTT_CLIENT_EVENT_RECVCMD     14
 #define PTT_CLIENT_EVENT_REVCLOC     15
 #define PTT_CLIENT_EVENT_RECVSOS     16
+#define PTT_CLIENT_EVENT_LISTEN_GRP  17
 
 #define PTT_QUERY_PAGE_SIZE   5
 
@@ -56,6 +57,7 @@ struct Group
 	uint32_t gid;
 	int type;
 	uint32_t author;
+	bool monitor;
 };
 Q_DECLARE_METATYPE(Group)
 
@@ -180,6 +182,7 @@ public:
 	void tempCall(uint32_t uid);
 	void reportLocation(double lat, double lon, int type = 0);
 	void sendSos(double lat, double lon, bool start);
+	void listenGroup(uint32_t gid, int action);
 	void logout();
 	void pttEventReport(int event, const char *data, int len);
 	void msgEventReport(int event, const char *msg, int len);

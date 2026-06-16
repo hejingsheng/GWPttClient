@@ -51,6 +51,7 @@ private:
 	void queryUser();
 	void onUserListDataReady(const QList<Member> &list);
 	void logout();
+	void listenGroup();
 	void tempCall();
 	void onTempCall(const int data);
 

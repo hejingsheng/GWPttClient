@@ -111,6 +111,15 @@
         <translatorcomment>按住讲话</translatorcomment>
         <translation type="unfinished">按住讲话</translation>
     </message>
+    <message>
+        <source>SOS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listen</source>
+        <translatorcomment>监听</translatorcomment>
+        <translation type="unfinished">监听</translation>
+    </message>
 </context>
 <context>
     <name>GWPttLogin</name>
@@ -203,6 +212,21 @@
         <translation type="unfinished">删除成功</translation>
     </message>
     <message>
+        <source>Success</source>
+        <translatorcomment>成功</translatorcomment>
+        <translation type="obsolete">成功</translation>
+    </message>
+    <message>
+        <source>Listening</source>
+        <translatorcomment>监听中</translatorcomment>
+        <translation type="unfinished">监听中</translation>
+    </message>
+    <message>
+        <source>Fail</source>
+        <translatorcomment>失败</translatorcomment>
+        <translation type="obsolete">失败</translation>
+    </message>
+    <message>
         <source>Deleteerror</source>
         <translatorcomment>删除失败:</translatorcomment>
         <translation type="unfinished">删除失败:</translation>
@@ -256,6 +280,14 @@
         <source>inputdevice</source>
         <translatorcomment>请输入设备ID(IMEI或MAC)</translatorcomment>
         <translation type="unfinished">请输入设备ID(IMEI或MAC)</translation>
+    </message>
+    <message>
+        <source>ListenSuccess</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ListenFail</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

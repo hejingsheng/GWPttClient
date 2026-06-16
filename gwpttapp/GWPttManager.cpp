@@ -155,6 +155,11 @@ void GWPttClient::sendSos(double lat, double lon, bool start)
 	pttSendSos(uid, name.toStdString().c_str(), currentGrpId, currentGrpName.toStdString().c_str(), 16, lat, lon, 1, start ? 0 : 1);
 }
 
+void GWPttClient::listenGroup(uint32_t gid, int action)
+{
+	pttGroupListen((int*)&gid, 1, action);
+}
+
 void GWPttClient::logout()
 {
 	pttLogout();
@@ -579,7 +584,22 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 						group.name = cJSON_GetObjectItem(item, "name")->valuestring;
 						group.gid = cJSON_GetObjectItem(item, "gid")->valueint;
 						group.author = cJSON_GetObjectItem(item, "authorUid")->valueint;
-						GWLOG_PRINT(GW_LOG_LEVEL_INFO, "group id %d, name %s, creater %d", group.gid, group.name, group.author);
+						if (cJSON_GetObjectItem(item, "monitor") != nullptr)
+						{
+							if (cJSON_GetObjectItem(item, "monitor")->type == cJSON_True)
+							{
+								group.monitor = true;
+							}
+							else
+							{
+								group.monitor = false;
+							}
+						}
+						else
+						{
+							group.monitor = false;
+						}
+						GWLOG_PRINT(GW_LOG_LEVEL_INFO, "group id %d, name %s, creater %d(%d)", group.gid, group.name, group.author, group.monitor);
 						queryGroupData->grouplist.append(group);
 					}
 					if (pages == 0)
@@ -921,6 +941,31 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 			if (callback != nullptr)
 			{
 				callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, nullptr);
+			}
+		}
+	}
+	else if (status == GW_MSG_STATUS_LISTEN_GROUP)
+	{
+		root = cJSON_Parse(msg);
+		if (root == NULL)
+		{
+			goto error;
+		}
+		sta = cJSON_GetObjectItem(root, "status")->valueint;
+		if (sta == 200)
+		{
+			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "listen group success");
+			if (callback != nullptr)
+			{
+				callback->onPttClientEvent(PTT_CLIENT_EVENT_LISTEN_GRP, nullptr);
+			}
+		}
+		else
+		{
+			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "listen group fail %d", sta);
+			if (callback != nullptr)
+			{
+				callback->onPttClientEvent(PTT_CLIENT_EVENT_LISTEN_GRP, (void*)(sta));
 			}
 		}
 	}
