@@ -4,7 +4,7 @@
 #include "GWPttConfig.h"
 #include "GWPttQRCodeDialog.h"
 
-const QString GWAPP_VERSION = "GW_APP_V1.2.0";
+const QString GWAPP_VERSION = "GW_APP_V1.2.1";
 
 GWPTTLoginWidget::GWPTTLoginWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::GWPttLogin)
