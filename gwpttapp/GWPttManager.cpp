@@ -1165,11 +1165,14 @@ void GWPttClient::registerObserver(GWPttClientCallback *cb)
 	callback = cb;
 }
 
-void GWPttClient::initPttMain(QString &account, QString &password, QString &address, int port)
+void GWPttClient::initPttMain(QString &account, QString &password, QString &address, int port, bool saveVoice)
 {
 	pttAudioDevice = pcInitAudioDevice(GW_PTT_AUDIO_SAMPLERATE, GW_PTT_AUDIO_BITS, GW_PTT_AUDIO_CHANNELS);
 	pttInit(onGWPttEvent, onGWMsgEvent, pttAudioDevice, 0, GW_PTT_ENCODE_LEVEL_HIGH, 0);
-
+	if (saveVoice)
+	{
+		pttSaveVoice(1, (char*)"voice");
+	}
 	pttCoreTimer_ = new QTimer(this);
 	pttCoreTimer_->setInterval(TIME_1_SECOND / 1000);        // 1秒
 	pttCoreTimer_->setSingleShot(false);  // 默认就是 false，可省略

@@ -31,6 +31,8 @@ DLL_EXPORT int pttInitWithoutAi(GWPttEvent cb, GWMsgEvent cb1, GWPttAudioModule 
 
 DLL_EXPORT int pttSetLogCallback(int level, print_log_cb cb);
 
+DLL_EXPORT int pttSetRecordDelay(int ms);
+
 DLL_EXPORT int pttControlLog(int level, char logToFile);
 
 DLL_EXPORT int pttSetQueuePath(const char *path);

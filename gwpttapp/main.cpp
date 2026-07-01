@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 	QTranslator translator;
 
 	QString locale = QLocale::system().name();
+	//locale = "zh_CN";
 	if (translator.load("Translation_" + locale+".qm")) 
 	{
 		a.installTranslator(&translator);

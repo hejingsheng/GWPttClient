@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "GWPTT"
-!define PRODUCT_VERSION "1.2.1"
+!define PRODUCT_VERSION "1.3.0"
 !define PRODUCT_PUBLISHER "GWSD, Inc."
 !define PRODUCT_WEB_SITE "http://www.hawk-sight.com"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\gwpttapp.exe"
@@ -133,6 +133,7 @@ Section "MainSection" SEC01
   File "Package\translations\qt_sk.qm"
   File "Package\translations\qt_uk.qm"
   File "Package\translations\qt_zh_TW.qm"
+  SetOutPath "$INSTDIR\voice"
 SectionEnd
 
 Section -AdditionalIcons
@@ -226,6 +227,7 @@ Section Uninstall
   Delete "$INSTDIR\audio\qtaudio_wasapi.dll"
   Delete "$INSTDIR\audio\qtaudio_windows.dll"
   Delete "$INSTDIR\gwptt.log"
+  Delete "$INSTDIR\voice\*"
 
   Delete "$SMPROGRAMS\GWPTT\Uninstall.lnk"
   Delete "$SMPROGRAMS\GWPTT\Website.lnk"
@@ -240,6 +242,7 @@ Section Uninstall
   RMDir "$INSTDIR\iconengines"
   RMDir "$INSTDIR\bearer"
   RMDir "$INSTDIR\audio"
+  RMDir "$INSTDIR\voice"
   RMDir "$INSTDIR"
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"

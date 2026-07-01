@@ -274,6 +274,8 @@ int gwPttSpeakStartToDmr(char dmrtype, int dmrid, long long ms);
 
 int gwPttSpeak(int action, long long ms);
 
+int gwPttSetRecordDelay(int ms);
+
 int gwPttHeart(int battery, const char *net);
 
 int gwPttQueryTmpGrp(int type);

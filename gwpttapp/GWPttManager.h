@@ -168,7 +168,7 @@ public:
 
 public:
 	void registerObserver(GWPttClientCallback *cb);
-	void initPttMain(QString &account, QString &password, QString &address, int port);
+	void initPttMain(QString &account, QString &password, QString &address, int port, bool saveVoice);
 	void pttStart();
 	void queryGroup(int pageNum, int pageSize = PTT_QUERY_PAGE_SIZE);
 	void createGroup();

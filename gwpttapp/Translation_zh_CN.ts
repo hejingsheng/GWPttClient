@@ -163,6 +163,11 @@
         <translatorcomment>二维码</translatorcomment>
         <translation type="unfinished">二维码</translation>
     </message>
+    <message>
+        <source>SaveVoice</source>
+        <translatorcomment>保存录音</translatorcomment>
+        <translation type="unfinished">保存录音</translation>
+    </message>
 </context>
 <context>
     <name>GWPttNoticeInfo</name>
@@ -214,7 +219,7 @@
     <message>
         <source>Success</source>
         <translatorcomment>成功</translatorcomment>
-        <translation type="obsolete">成功</translation>
+        <translation type="unfinished">成功</translation>
     </message>
     <message>
         <source>Listening</source>
@@ -224,7 +229,7 @@
     <message>
         <source>Fail</source>
         <translatorcomment>失败</translatorcomment>
-        <translation type="obsolete">失败</translation>
+        <translation type="unfinished">失败</translation>
     </message>
     <message>
         <source>Deleteerror</source>
@@ -280,14 +285,6 @@
         <source>inputdevice</source>
         <translatorcomment>请输入设备ID(IMEI或MAC)</translatorcomment>
         <translation type="unfinished">请输入设备ID(IMEI或MAC)</translation>
-    </message>
-    <message>
-        <source>ListenSuccess</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ListenFail</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -4,7 +4,7 @@
 #include "GWPttConfig.h"
 #include "GWPttQRCodeDialog.h"
 
-const QString GWAPP_VERSION = "GW_APP_V1.2.1";
+const QString GWAPP_VERSION = "GW_APP_V1.3.0";
 
 GWPTTLoginWidget::GWPTTLoginWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::GWPttLogin)
@@ -27,18 +27,26 @@ void GWPTTLoginWidget::initEvent()
 		dialog.setQRCodeString(deviceId);
 		dialog.exec();
 	});
-
+	connect(ui->boxSaveVoice, &QCheckBox::clicked, this, [this]() {});
 	connect(this, &GWPTTLoginWidget::sendSignalToUI, this, &GWPTTLoginWidget::onLoginReport);
-
 	ConfigReader config;
 
 	QString address = config.readValue<QString>("Server", "Address", "chn-access2c.hawk-sight.com");
 	int port = config.readValue<int>("Server", "Port", 23003);
 	QString deviceid = config.readValue<QString>("Device", "Id", "865223047568037");
+	int save = config.readValue<int>("Device", "SaveVoice", 0);
 
 	ui->editAddress->setText(address);
 	ui->editPort->setText(QString::number(port));
 	ui->editDeviceId->setText(deviceid);
+	if (save)
+	{
+		ui->boxSaveVoice->setChecked(true);
+	}
+	else
+	{
+		ui->boxSaveVoice->setChecked(false);
+	}
 }
 
 void GWPTTLoginWidget::onPttClientEvent(int event, void *data)
@@ -58,6 +66,7 @@ void GWPTTLoginWidget::onLoginReport(int event, void *data)
 		config.writeValue("Server", "Address", ui->editAddress->text());
 		config.writeValue("Server", "Port", ui->editPort->text());
 		config.writeValue("Device", "Id", ui->editDeviceId->text());
+		config.writeValue("Device", "SaveVoice", ui->boxSaveVoice->isChecked() ? 1 : 0);
 		mainUi->init();
 		mainUi->show();
 	}
@@ -102,6 +111,7 @@ void GWPTTLoginWidget::loginPtt()
 	{
 		port = 23003;
 	}
+	bool saveVoice = ui->boxSaveVoice->isChecked();
 	//qDebug() <<"data1:" << deviceId;
 	//qDebug() <<"data2:" << address;
 	//qDebug() <<"data3:" << password;
@@ -110,7 +120,7 @@ void GWPTTLoginWidget::loginPtt()
 	//port = 23003;
 	//deviceId = "865223047568037";
 	GWPttClient::getPtt()->registerObserver(this);
-	GWPttClient::getPtt()->initPttMain(deviceId, password, address, port);
+	GWPttClient::getPtt()->initPttMain(deviceId, password, address, port, saveVoice);
 	GWPttClient::getPtt()->pttStart();
 }
 

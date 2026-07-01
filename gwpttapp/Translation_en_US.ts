@@ -163,6 +163,11 @@
         <translatorcomment>QRCode</translatorcomment>
         <translation type="unfinished">QRCode</translation>
     </message>
+    <message>
+        <source>SaveVoice</source>
+        <translatorcomment>SaveVoice</translatorcomment>
+        <translation type="unfinished">SaveVoice</translation>
+    </message>
 </context>
 <context>
     <name>GWPttNoticeInfo</name>
@@ -214,7 +219,7 @@
     <message>
         <source>Success</source>
         <translatorcomment>Success</translatorcomment>
-        <translation type="obsolete">Success</translation>
+        <translation type="unfinished">Success</translation>
     </message>
     <message>
         <source>Listening</source>
@@ -224,7 +229,7 @@
     <message>
         <source>Fail</source>
         <translatorcomment>Fail</translatorcomment>
-        <translation type="obsolete">Fail</translation>
+        <translation type="unfinished">Fail</translation>
     </message>
     <message>
         <source>Deleteerror</source>
@@ -280,14 +285,6 @@
         <source>inputdevice</source>
         <translatorcomment>Please input device id(IMEI or MAC)</translatorcomment>
         <translation type="unfinished">Please input device id(IMEI or MAC)</translation>
-    </message>
-    <message>
-        <source>ListenSuccess</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ListenFail</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
