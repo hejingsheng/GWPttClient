@@ -312,7 +312,7 @@
    <widget class="QPushButton" name="btnPTT">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>30</x>
       <y>545</y>
       <width>100</width>
       <height>50</height>
@@ -378,6 +378,19 @@
     </property>
     <property name="text">
      <string>Listen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnMeeting">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>545</y>
+      <width>100</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Meeting</string>
     </property>
    </widget>
   </widget>

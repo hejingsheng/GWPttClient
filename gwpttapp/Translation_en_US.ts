@@ -112,6 +112,11 @@
         <translation type="unfinished">PTT</translation>
     </message>
     <message>
+        <source>Meeting</source>
+        <translatorcomment>Meeting</translatorcomment>
+        <translation type="unfinished">Meeting</translation>
+    </message>
+    <message>
         <source>SOS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -167,6 +172,73 @@
         <source>SaveVoice</source>
         <translatorcomment>SaveVoice</translatorcomment>
         <translation type="unfinished">SaveVoice</translation>
+    </message>
+</context>
+<context>
+    <name>GWPttMeetingClass</name>
+    <message>
+        <source>GWPttMeeting</source>
+        <translatorcomment>Meeting</translatorcomment>
+        <translation type="unfinished">Meeting</translation>
+    </message>
+    <message>
+        <source>Create</source>
+        <translatorcomment>Create</translatorcomment>
+        <translation type="unfinished">Create</translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translatorcomment>Quit</translatorcomment>
+        <translation type="unfinished">Quit</translation>
+    </message>
+    <message>
+        <source>/99</source>
+        <translatorcomment>/99</translatorcomment>
+        <translation type="unfinished">/99</translation>
+    </message>
+    <message>
+        <source>Query</source>
+        <translatorcomment>Query</translatorcomment>
+        <translation type="unfinished">Query</translation>
+    </message>
+    <message>
+        <source>Reject</source>
+        <translatorcomment>Reject</translatorcomment>
+        <translation type="unfinished">Reject</translation>
+    </message>
+    <message>
+        <source>Join</source>
+        <translatorcomment>Join</translatorcomment>
+        <translation type="unfinished">Join</translation>
+    </message>
+    <message>
+        <source>QueryUser</source>
+        <translatorcomment>QueryUser</translatorcomment>
+        <translation type="unfinished">QueryUser</translation>
+    </message>
+    <message>
+        <source>Accept</source>
+        <translatorcomment>Agree</translatorcomment>
+        <translation type="unfinished">Agree</translation>
+    </message>
+    <message>
+        <source>00:00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MeetingID</source>
+        <translatorcomment>MeetingId</translatorcomment>
+        <translation type="unfinished">MeetingId</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translatorcomment>Password</translatorcomment>
+        <translation type="unfinished">Password</translation>
+    </message>
+    <message>
+        <source>Mute</source>
+        <translatorcomment>Mute</translatorcomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

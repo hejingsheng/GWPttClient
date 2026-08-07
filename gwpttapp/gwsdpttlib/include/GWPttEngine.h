@@ -47,6 +47,8 @@ DLL_EXPORT int pttConfigServer(int type, char *host, int port);
 
 DLL_EXPORT int pttSaveVoice(int open, char *path);
 
+DLL_EXPORT int pttControlMicGain(char enable, float gain);
+
 DLL_EXPORT int pttNetCheck(int type, char *host, int port);
 
 DLL_EXPORT int pttLogin(const char *account, const char *pass, const char *imei, const char *iccid);
@@ -137,6 +139,8 @@ DLL_EXPORT int pttLogout(void);
 
 DLL_EXPORT int pttOnPcmData(char *pcm, int len);
 
+DLL_EXPORT int pttOnFarPcmData(char *pcm, int len);
+
 DLL_EXPORT int pttOnEncodeData(char *enc, int len);
 
 DLL_EXPORT int pttUpdateLeftVoicePacket(int num);
@@ -178,6 +182,20 @@ DLL_EXPORT int pttExitAI(void);
 DLL_EXPORT int pttConfigAgeGain(int db);
 
 DLL_EXPORT int pttConfigAgeBalance(int balance);
+
+DLL_EXPORT int pttCreateMeeting(const char *name, const char *password, int *uids, int num);
+
+DLL_EXPORT int pttLeaveMeeting(int id);
+
+DLL_EXPORT int pttDestroyMeeting(int id);
+
+DLL_EXPORT int pttQueryMeeting(int id);
+
+DLL_EXPORT int pttJoinMeeting(int id, const char *password);
+
+DLL_EXPORT int pttAcceptMeeting(int id);
+
+DLL_EXPORT int pttRejectMeeting(int id);
 
 #ifdef __cplusplus
 }

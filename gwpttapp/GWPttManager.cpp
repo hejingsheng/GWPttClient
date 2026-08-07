@@ -79,7 +79,8 @@ GWPttClient::~GWPttClient()
 		delete pttMainThread_;
 	}
 	pttMainThread_ = nullptr;
-	callback = nullptr;
+	//callback = nullptr;
+	callbackVec.clear();
 	pttAudioDevice = nullptr;
 }
 
@@ -160,9 +161,56 @@ void GWPttClient::listenGroup(uint32_t gid, int action)
 	pttGroupListen((int*)&gid, 1, action);
 }
 
+void GWPttClient::createMeeting(uint32_t *uids, int num)
+{
+	pttCreateMeeting(nullptr, nullptr, (int*)uids, num);
+}
+
+void GWPttClient::leaveMeeting(uint32_t mid)
+{
+	pttLeaveMeeting(mid);
+}
+
+void GWPttClient::destroyMeeting(uint32_t mid)
+{
+	pttDestroyMeeting(mid);
+}
+
+void GWPttClient::queryMeeting(uint32_t mid)
+{
+	pttQueryMeeting(mid);
+}
+
+void GWPttClient::joinMeeting(uint32_t mid, QString &pass)
+{
+	if (pass.isEmpty())
+	{
+		pttJoinMeeting(mid, nullptr);
+	}
+	else
+	{
+		pttJoinMeeting(mid, pass.toStdString().c_str());
+	}	
+}
+
+void GWPttClient::acceptMeeting(uint32_t mid)
+{
+	pttAcceptMeeting(mid);
+}
+
+void GWPttClient::rejectMeeting(uint32_t mid)
+{
+	pttRejectMeeting(mid);
+}
+
 void GWPttClient::logout()
 {
 	pttLogout();
+}
+
+void GWPttClient::muteMic(bool mute)
+{
+	pttAudioDevice->muteRecorder(mute);
 }
 
 void GWPttClient::pttEventReport(int event, const char *data, int len)
@@ -241,18 +289,24 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 			}
 			currentGrpType = 16;
 			emit sendSignalToPttMainThread(PTT_THREAD_IDLE_EVENT_TYPE);
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_SWITCHGROUP, (void*)currentGrpName.toStdString().c_str());
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_SWITCHGROUP, (void*)currentGrpName.toStdString().c_str());
+				}
 			}
 		}
 		else
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_INFO, "join group fail");
 			emit sendSignalToPttMainThread(PTT_THREAD_IDLE_EVENT_TYPE);
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_SWITCHGROUP, nullptr);
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_SWITCHGROUP, nullptr);
+				}
 			}
 		}
 	}
@@ -282,21 +336,27 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 			{
 				status = 1;
 			}
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				std::shared_ptr<Speaker> speaker = std::make_shared<Speaker>();
-				speaker->name = speakernm;
-				speaker->uid = speakerid;
-				speaker->status = status;
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_SPEAK, (void*)speaker.get());
+				if (callback != nullptr)
+				{
+					std::shared_ptr<Speaker> speaker = std::make_shared<Speaker>();
+					speaker->name = speakernm;
+					speaker->uid = speakerid;
+					speaker->status = status;
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_SPEAK, (void*)speaker.get());
+				}
 			}
 		}
 		else
 		{
 			status = 1;
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_SPEAK, nullptr);
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_SPEAK, nullptr);
+				}
 			}
 		}
 
@@ -315,9 +375,12 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 		}
 		currentGrpType = 16;
 		GWLOG_PRINT(GW_LOG_LEVEL_INFO, "join group %d, %s(%d)", currentGrpId, currentGrpName.toStdString().c_str(), creater);
-		if (callback != nullptr)
+		for (auto callback : callbackVec)
 		{
-			callback->onPttClientEvent(PTT_CLIENT_EVENT_SWITCHGROUP, (void*)currentGrpName.toStdString().c_str());
+			if (callback != nullptr)
+			{
+				callback->onPttClientEvent(PTT_CLIENT_EVENT_SWITCHGROUP, (void*)currentGrpName.toStdString().c_str());
+			}
 		}
 	}
 	else if (event == GW_PTT_EVENT_QUERY_TMPGRP)
@@ -353,19 +416,22 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 	{
 		root = cJSON_Parse(data);
 		ret = cJSON_GetObjectItem(root, "result")->valueint;
-		if (callback != nullptr)
+		for (auto callback : callbackVec)
 		{
-			if (ret == 0)
+			if (callback != nullptr)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_ENTTMPCALL, nullptr);
-			}
-			else if (ret == 1)
-			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_EXTTMPCALL, nullptr);
-			}
-			else
-			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_ERRTMPCALL, nullptr);
+				if (ret == 0)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_ENTTMPCALL, nullptr);
+				}
+				else if (ret == 1)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_EXTTMPCALL, nullptr);
+				}
+				else
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_ERRTMPCALL, nullptr);
+				}
 			}
 		}
 	}
@@ -377,9 +443,12 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 		if (tmp != NULL)
 		{
 			//exit temp call
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_EXTTMPCALL, nullptr);
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_EXTTMPCALL, nullptr);
+				}
 			}
 		}
 		else
@@ -394,18 +463,24 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 			{
 				//name = "";
 			}
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_ENTTMPCALL, nullptr);
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_ENTTMPCALL, nullptr);
+				}
 			}
 		}
 	}
 	else if (event == GW_PTT_EVENT_RECV_TEXT)
 	{
 		GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "recv data is %s", data);
-		if (callback != nullptr)
+		for (auto callback : callbackVec)
 		{
-			callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVTXT, (void*)data);
+			if (callback != nullptr)
+			{
+				callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVTXT, (void*)data);
+			}
 		}
 	}
 	else if (event == GW_PTT_EVENT_NAME_CHANGE)
@@ -417,9 +492,12 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 		if (tmp != NULL)
 		{
 			name = tmp->valuestring;
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_NAMECHANGE, (void*)name);
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_NAMECHANGE, (void*)name);
+				}
 			}
 		}
 		else
@@ -429,9 +507,176 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 	}
 	else if (event == GW_PTT_EVENT_RECV_SOS)
 	{
-		if (callback != nullptr)
+		for (auto callback : callbackVec)
 		{
-			callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVSOS, (void*)data);
+			if (callback != nullptr)
+			{
+				callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVSOS, (void*)data);
+			}
+		}
+	}
+	else if (event == GW_PTT_EVENT_MEETING)
+	{
+		root = cJSON_Parse(data);
+		ret = cJSON_GetObjectItem(root, "result")->valueint;
+		if (ret == 0)
+		{
+			int action;
+			int mid;
+			char *name;
+			char *pass;
+			std::shared_ptr<GWPttMeetingEventData> meeting = std::make_shared<GWPttMeetingEventData>();
+			action = cJSON_GetObjectItem(root, "action")->valueint;
+			meeting->action = action;  // 0 create 1 destroy 2 quit  3 join 4 accept 5 reject 6 query
+			if (cJSON_GetObjectItem(root, "name") != NULL)
+			{
+				name = cJSON_GetObjectItem(root, "name")->valuestring;
+				meeting->meetingName = name;
+			}
+			if (cJSON_GetObjectItem(root, "pass") != NULL)
+			{
+				pass = cJSON_GetObjectItem(root, "pass")->valuestring;
+				meeting->meetingPass = pass;
+			}
+			if (action == 0)
+			{
+				// get meeting id
+				mid = cJSON_GetObjectItem(root, "mid")->valueint;
+				meeting->meetingId = mid;
+			}
+			if (action == 6)
+			{
+				// meeting members
+				int size;
+				int idx;
+				cJSON *members = cJSON_GetObjectItem(root, "members");
+				size = cJSON_GetArraySize(members);
+				if (size > 0)
+				{
+					for (idx = 0; idx < size; idx++)
+					{
+						struct Member member;
+						cJSON *item = cJSON_GetArrayItem(members, idx);
+						int uid = cJSON_GetObjectItem(item, "uid")->valueint;
+						char *uname = cJSON_GetObjectItem(item, "name")->valuestring;
+						member.name = uname;
+						member.uid = uid;
+						member.online = true;
+						GWLOG_PRINT(GW_LOG_LEVEL_INFO, "user id %d, name %s", uid, uname);
+						meeting->meetingUserList.append(member);
+					}
+				}
+				else
+				{
+					GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "no meeting user");
+				}
+			}
+			for (auto callback : callbackVec)
+			{
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_MEETING, (void*)meeting.get());
+				}
+			}
+		}
+		else
+		{
+			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "meeting operate error");
+			for (auto callback : callbackVec)
+			{
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_MEETING, nullptr);
+				}
+			}
+		}
+	}
+	else if (event == GW_PTT_EVENT_MEETING_REPORT)
+	{
+		int action;
+		int mid;
+		char *name;
+		root = cJSON_Parse(data);
+		action = cJSON_GetObjectItem(root, "action")->valueint;
+		std::shared_ptr<GWPttMeetingEventData> meeting = std::make_shared<GWPttMeetingEventData>();
+		if (cJSON_GetObjectItem(root, "name") != NULL)
+		{
+			name = cJSON_GetObjectItem(root, "name")->valuestring;
+			meeting->meetingName = name;
+		}
+		if (action == 0)
+		{
+			// invite meeting
+			int mid = cJSON_GetObjectItem(root, "mid")->valueint;
+			bool autoAccepe = false;
+			meeting->action = 10;
+			meeting->meetingId = mid;
+			if (cJSON_GetObjectItem(root, "autoAccept") == NULL)
+			{
+				autoAccepe = false;
+			}
+			else
+			{
+				autoAccepe = (cJSON_GetObjectItem(root, "autoAccept")->valueint == 0 ? false : true);
+			}
+			meeting->autoAccept = autoAccepe;
+			for (auto callback : callbackVec)
+			{
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_MEETING, (void*)meeting.get());
+				}
+			}
+		}
+		else if (action == 1)
+		{
+			// meeting speaker change
+			meeting->action = 11;
+			int size;
+			int idx;
+			cJSON *members = cJSON_GetObjectItem(root, "members");
+			size = cJSON_GetArraySize(members);
+			if (size > 0)
+			{
+				for (idx = 0; idx < size; idx++)
+				{
+					struct Member member;
+					cJSON *item = cJSON_GetArrayItem(members, idx);
+					int uid = cJSON_GetObjectItem(item, "uid")->valueint;
+					char *uname = cJSON_GetObjectItem(item, "name")->valuestring;
+					member.name = uname;
+					member.uid = uid;
+					member.online = true;
+					GWLOG_PRINT(GW_LOG_LEVEL_INFO, "user id %d, name %s", uid, uname);
+					meeting->meetingUserList.append(member);
+				}
+				for (auto callback : callbackVec)
+				{
+					if (callback != nullptr)
+					{
+						callback->onPttClientEvent(PTT_CLIENT_EVENT_MEETING, (void*)meeting.get());
+					}
+				}
+			}
+			else
+			{
+				GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "no meeting speaker user");
+			}
+		}
+		else if (action == 2)
+		{
+			meeting->action = 12;
+			for (auto callback : callbackVec)
+			{
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_MEETING, (void*)meeting.get());
+				}
+			}
+		}
+		else
+		{
+
 		}
 	}
 	else if (event == GW_PTT_EVENT_LOGOUT || event == GW_PTT_EVENT_KICKOUT || event == GW_PTT_EVENT_ERROR || event == GW_PTT_EVENT_UNBIND)
@@ -441,9 +686,12 @@ void GWPttClient::pttEventReport(int event, const char *data, int len)
 		currentGrpId = 0;
 		msgStart = 0;
 		emit sendSignalToPttMainThread(PTT_THREAD_OFFLINE_EVENT_TYPE);
-		if (callback != nullptr)
+		for (auto callback : callbackVec)
 		{
-			callback->onPttClientEvent(PTT_CLIENT_EVENT_OFFLINE, nullptr);
+			if (callback != nullptr)
+			{
+				callback->onPttClientEvent(PTT_CLIENT_EVENT_OFFLINE, nullptr);
+			}
 		}
 	}
 	if (root)
@@ -492,18 +740,21 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 		}
 		else
 		{
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				if (msgtype == 101)
+				if (callback != nullptr)
 				{
-					// {"sendId":10006,"sendNm":"18038065657","recvtype":0,"msgtype":101,"signal":{"action":14,"users":[]},"timestamp":1778150469511}
-					item = cJSON_GetObjectItem(root, "signal");
-					int action = cJSON_GetObjectItem(item, "action")->valueint;
-					callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVCMD, (void*)action);
-				}
-				else
-				{
-					callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVCMD, (void*)msgtype);
+					if (msgtype == 101)
+					{
+						// {"sendId":10006,"sendNm":"18038065657","recvtype":0,"msgtype":101,"signal":{"action":14,"users":[]},"timestamp":1778150469511}
+						item = cJSON_GetObjectItem(root, "signal");
+						int action = cJSON_GetObjectItem(item, "action")->valueint;
+						callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVCMD, (void*)action);
+					}
+					else
+					{
+						callback->onPttClientEvent(PTT_CLIENT_EVENT_RECVCMD, (void*)msgtype);
+					}
 				}
 			}
 		}
@@ -522,9 +773,12 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 				if (item->valuestring != NULL)
 				{
 					char *address = item->valuestring;
-					if (callback != nullptr)
+					for (auto callback : callbackVec)
 					{
-						callback->onPttClientEvent(PTT_CLIENT_EVENT_REVCLOC, (void*)address);
+						if (callback != nullptr)
+						{
+							callback->onPttClientEvent(PTT_CLIENT_EVENT_REVCLOC, (void*)address);
+						}
 					}
 				}
 			}
@@ -612,35 +866,47 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 						GWLOG_PRINT(GW_LOG_LEVEL_INFO, "page group count %d,%d", totals, size);
 						queryGroupData->totalpage = totals;
 					}
-					if (callback != nullptr)
+					for (auto callback : callbackVec)
 					{
-						callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYGROUP, (void*)(queryGroupData.get()));
+						if (callback != nullptr)
+						{
+							callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYGROUP, (void*)(queryGroupData.get()));
+						}
 					}
 				}
 				else
 				{
 					GWLOG_PRINT(GW_LOG_LEVEL_INFO, "no group");
-					if (callback != nullptr)
+					for (auto callback : callbackVec)
 					{
-						callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYGROUP, nullptr);
+						if (callback != nullptr)
+						{
+							callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYGROUP, nullptr);
+						}
 					}
 				}
 			}
 			else
 			{
 				GWLOG_PRINT(GW_LOG_LEVEL_INFO, "no group");
-				if (callback != nullptr)
+				for (auto callback : callbackVec)
 				{
-					callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYGROUP, nullptr);
+					if (callback != nullptr)
+					{
+						callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYGROUP, nullptr);
+					}
 				}
 			}
 		}
 		else
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "query group fail %d", sta);
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYGROUP, nullptr);
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYGROUP, nullptr);
+				}
 			}
 		}
 	}
@@ -664,20 +930,26 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 			ttl = cJSON_GetObjectItem(data, "ttl")->valueint;
 			group.author = uid;
 			GWLOG_PRINT(GW_LOG_LEVEL_INFO, "create group %s(%d) success", group.name, group.gid);
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				std::shared_ptr<GroupOperate> ptr = GroupOperate::buildNewGroupToken(group, token, ttl);
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_CREATEGROUP, (void*)(ptr.get()));
+				if (callback != nullptr)
+				{
+					std::shared_ptr<GroupOperate> ptr = GroupOperate::buildNewGroupToken(group, token, ttl);
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_CREATEGROUP, (void*)(ptr.get()));
+				}
 			}
 		}
 		else
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "create group fail");
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				std::shared_ptr<GroupOperate> ptr = std::make_shared<GroupOperate>();
-				ptr->result = sta;
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_CREATEGROUP, (void*)(ptr.get()));
+				if (callback != nullptr)
+				{
+					std::shared_ptr<GroupOperate> ptr = std::make_shared<GroupOperate>();
+					ptr->result = sta;
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_CREATEGROUP, (void*)(ptr.get()));
+				}
 			}
 		}
 	}
@@ -734,19 +1006,25 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 			data = cJSON_GetObjectItem(root, "data");
 			gid = cJSON_GetObjectItem(data, "gid")->valueint;
 			GWLOG_PRINT(GW_LOG_LEVEL_INFO, "exit group %d success", gid);
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				std::shared_ptr<GroupOperate> ptr = GroupOperate::buildDeleteExit(0, gid);
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPDELETE, (void*)(ptr.get()));
+				if (callback != nullptr)
+				{
+					std::shared_ptr<GroupOperate> ptr = GroupOperate::buildDeleteExit(0, gid);
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPDELETE, (void*)(ptr.get()));
+				}
 			}
 		}
 		else
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "exit group fail");
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				std::shared_ptr<GroupOperate> ptr = GroupOperate::buildDeleteExit(sta);
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPDELETE, (void*)(ptr.get()));
+				if (callback != nullptr)
+				{
+					std::shared_ptr<GroupOperate> ptr = GroupOperate::buildDeleteExit(sta);
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPDELETE, (void*)(ptr.get()));
+				}
 			}
 		}
 		
@@ -770,19 +1048,25 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 			data = cJSON_GetObjectItem(root, "data");
 			gid = cJSON_GetObjectItem(data, "gid")->valueint;
 			GWLOG_PRINT(GW_LOG_LEVEL_INFO, "delete group %d success", gid);
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				std::shared_ptr<GroupOperate> ptr = GroupOperate::buildDeleteExit(0, gid);
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPDELETE, (void*)(ptr.get()));
+				if (callback != nullptr)
+				{
+					std::shared_ptr<GroupOperate> ptr = GroupOperate::buildDeleteExit(0, gid);
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPDELETE, (void*)(ptr.get()));
+				}
 			}
 		}
 		else
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "delete group fail");
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				std::shared_ptr<GroupOperate> ptr = GroupOperate::buildDeleteExit(sta);
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPDELETE, (void*)(ptr.get()));
+				if (callback != nullptr)
+				{
+					std::shared_ptr<GroupOperate> ptr = GroupOperate::buildDeleteExit(sta);
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPDELETE, (void*)(ptr.get()));
+				}
 			}
 		}
 
@@ -804,10 +1088,13 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 			token.name = "";
 			token.token = cJSON_GetObjectItem(code, "code")->valueint;
 			token.ttl = cJSON_GetObjectItem(code, "ttl")->valueint;
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				std::shared_ptr<GroupOperate> ptr = GroupOperate::copy(token);
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPTOKEN, (void*)(ptr.get()));
+				if (callback != nullptr)
+				{
+					std::shared_ptr<GroupOperate> ptr = GroupOperate::copy(token);
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_GROUPTOKEN, (void*)(ptr.get()));
+				}
 			}
 		}
 		else
@@ -912,35 +1199,47 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 						GWLOG_PRINT(GW_LOG_LEVEL_INFO, "page user count %d,%d", totals, size);
 						queryMemberData->totalpage = totals;
 					}
-					if (callback != nullptr)
+					for (auto callback : callbackVec)
 					{
-						callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, (void*)(queryMemberData.get()));
+						if (callback != nullptr)
+						{
+							callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, (void*)(queryMemberData.get()));
+						}
 					}
 				}
 				else
 				{
 					GWLOG_PRINT(GW_LOG_LEVEL_INFO, "no user");
-					if (callback != nullptr)
+					for (auto callback : callbackVec)
 					{
-						callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, nullptr);
+						if (callback != nullptr)
+						{
+							callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, nullptr);
+						}
 					}
 				}
 			}
 			else
 			{
 				GWLOG_PRINT(GW_LOG_LEVEL_INFO, "no user");
-				if (callback != nullptr)
+				for (auto callback : callbackVec)
 				{
-					callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, nullptr);
+					if (callback != nullptr)
+					{
+						callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, nullptr);
+					}
 				}
 			}
 		}
 		else
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "query member fail %d", sta);
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, nullptr);
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_QUERYUSER, nullptr);
+				}
 			}
 		}
 	}
@@ -955,17 +1254,23 @@ void GWPttClient::msgEventReport(int status, const char *msg, int len)
 		if (sta == 200)
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "listen group success");
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_LISTEN_GRP, nullptr);
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_LISTEN_GRP, nullptr);
+				}
 			}
 		}
 		else
 		{
 			GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "listen group fail %d", sta);
-			if (callback != nullptr)
+			for (auto callback : callbackVec)
 			{
-				callback->onPttClientEvent(PTT_CLIENT_EVENT_LISTEN_GRP, (void*)(sta));
+				if (callback != nullptr)
+				{
+					callback->onPttClientEvent(PTT_CLIENT_EVENT_LISTEN_GRP, (void*)(sta));
+				}
 			}
 		}
 	}
@@ -1064,9 +1369,12 @@ LOGIN:
 	{
 		GWLOG_PRINT(GW_LOG_LEVEL_ERROR, "login fail...");
 		status = PTT_CLIENT_STATUS_LOGIN;
-		if (callback != nullptr)
+		for (auto callback : callbackVec)
 		{
-			callback->onPttClientEvent(PTT_CLIENT_EVENT_LOGIN, (void*)1);
+			if (callback != nullptr)
+			{
+				callback->onPttClientEvent(PTT_CLIENT_EVENT_LOGIN, (void*)1);
+			}
 		}
 		goto LOGIN;
 	}
@@ -1114,9 +1422,12 @@ JOINGRP:
 		goto JOINGRP;
 	}
 	GWLOG_PRINT(GW_LOG_LEVEL_INFO, "join group success...");
-	if (callback != nullptr)
+	for (auto callback : callbackVec)
 	{
-		callback->onPttClientEvent(PTT_CLIENT_EVENT_LOGIN, (void*)0);
+		if (callback != nullptr)
+		{
+			callback->onPttClientEvent(PTT_CLIENT_EVENT_LOGIN, (void*)0);
+		}
 	}
 	while (1)
 	{
@@ -1162,7 +1473,20 @@ void GWPttClient::pttMainThread(int param)
 
 void GWPttClient::registerObserver(GWPttClientCallback *cb)
 {
-	callback = cb;
+	//callback = cb;
+	callbackVec.push_back(cb);
+}
+
+void GWPttClient::unregisterObserver(GWPttClientCallback *cb)
+{
+	for (auto iter = callbackVec.begin(); iter != callbackVec.end(); iter++)
+	{
+		if (*iter == cb)
+		{
+			callbackVec.erase(iter);
+			break;
+		}
+	}
 }
 
 void GWPttClient::initPttMain(QString &account, QString &password, QString &address, int port, bool saveVoice)

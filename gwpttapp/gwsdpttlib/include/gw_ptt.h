@@ -68,6 +68,8 @@ enum {
     GW_PTT_EVENT_RECV_TEXT = 26,
     GW_PTT_EVENT_NAME_CHANGE = 27,
     GW_PTT_EVENT_RECV_SOS = 28,
+    GW_PTT_EVENT_MEETING = 29,
+    GW_PTT_EVENT_MEETING_REPORT = 30,
 };
 
 enum {
@@ -362,6 +364,8 @@ int gwPttGetLocationByBS(char *param, char **response);
 
 unsigned int gwPttGetTime(void);
 
+int gwPttControlMicGain(char enable, float gain);
+
 int gwPttRecordDataReady(int len, long long ms);
 
 void gwPttUpdateLeftVoicePacket(int num);
@@ -385,6 +389,24 @@ int gwPttExitAI(void);
 int gwPttConfigAgeGain(int db);
 
 int gwPttConfigAgeBalance(int balanceLevel);
+
+int gwPttCreateMeeting(const char *name, const char *password, int *uids, int num);
+
+int gwPttLeaveMeeting(int id);
+
+int gwPttDestroyMeeting(int id);
+
+int gwPttQueryMeeting(int id);
+
+int gwPttJoinMeeting(int id, const char *password);
+
+int gwPttAcceptMeeting(int id);
+
+int gwPttRejectMeeting(int id);
+
+void gwSaveFarVoice(char *pcm, int len);
+
+void gwProcessNearVoice(char *nearPcm, int length);
 
 #ifdef __cplusplus
 }

@@ -4,6 +4,7 @@
 #include <QTimer>
 #include "ui_GWPttAppMain.h"
 #include "GWPttManager.h"
+#include "GWPttMeeting.h"
 
 class GWPttAppMain : public QMainWindow, public GWPttClientCallback
 {
@@ -27,6 +28,7 @@ signals:
 	void offline();
 	void tmpCallInfo(const int data);
 	void nameChangeOrRecvInfo(int type, const QString &data);
+	void meetingInvite(int mid, const QString &name, bool autoAccept);
 
 protected:
 	virtual void onPttClientEvent(int event, void *data);
@@ -54,10 +56,15 @@ private:
 	void listenGroup();
 	void tempCall();
 	void onTempCall(const int data);
+	void onMeetingInvite(int mid, const QString &name, bool autoAccept);
+	void showMeetingDialog(int mid, const QString &name, bool autoAccept);
 
 private:
 	void onPttPressed();
 	void onPttReleased();
+
+private:
+	void onMeeting();
 
 public:
 	bool isSos;
@@ -73,4 +80,5 @@ private:
 	QList<Group> currentPageGrouplist_;
 	QList<Member> currentPageUserlist_;
 	bool isTempCall;
+	bool isMeeting;
 };

@@ -28,6 +28,7 @@
 #define PTT_CLIENT_EVENT_REVCLOC     15
 #define PTT_CLIENT_EVENT_RECVSOS     16
 #define PTT_CLIENT_EVENT_LISTEN_GRP  17
+#define PTT_CLIENT_EVENT_MEETING     18
 
 #define PTT_QUERY_PAGE_SIZE   5
 
@@ -137,6 +138,17 @@ struct GWPttQueryUserEventData
 	QList<Member> userlist;
 };
 
+struct GWPttMeetingEventData
+{
+	int action;  // 0 create 1 destroy 2 quit  3 join 4 accept 5 reject 6 query  10 invite 11 speaker change
+	uint32_t meetingId;
+	bool autoAccept;
+	QString meetingName;
+	QString meetingPass;
+	QList<Member> meetingUserList;
+};
+Q_DECLARE_METATYPE(GWPttMeetingEventData)
+
 class GWPttClientCallback
 {
 public:
@@ -168,6 +180,7 @@ public:
 
 public:
 	void registerObserver(GWPttClientCallback *cb);
+	void unregisterObserver(GWPttClientCallback *cb);
 	void initPttMain(QString &account, QString &password, QString &address, int port, bool saveVoice);
 	void pttStart();
 	void queryGroup(int pageNum, int pageSize = PTT_QUERY_PAGE_SIZE);
@@ -183,7 +196,15 @@ public:
 	void reportLocation(double lat, double lon, int type = 0);
 	void sendSos(double lat, double lon, bool start);
 	void listenGroup(uint32_t gid, int action);
+	void createMeeting(uint32_t *uids, int num);
+	void leaveMeeting(uint32_t mid);
+	void destroyMeeting(uint32_t mid);
+	void queryMeeting(uint32_t mid);
+	void joinMeeting(uint32_t mid, QString &pass);
+	void acceptMeeting(uint32_t mid);
+	void rejectMeeting(uint32_t mid);
 	void logout();
+	void muteMic(bool mute);
 	void pttEventReport(int event, const char *data, int len);
 	void msgEventReport(int event, const char *msg, int len);
 
@@ -199,6 +220,9 @@ public:
 	}
 	const uint32_t getUid() const {
 		return uid;
+	}
+	const uint32_t getCurrentGroupId() const {
+		return currentGrpId;
 	}
 	const uint32_t getTime() const;
 
@@ -259,5 +283,6 @@ private:
 	GWPttAudioModule *pttAudioDevice;
 
 private:
-	GWPttClientCallback *callback;
+	//GWPttClientCallback *callback;
+	std::vector<GWPttClientCallback*> callbackVec;
 };

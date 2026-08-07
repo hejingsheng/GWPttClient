@@ -89,11 +89,16 @@ qint64 AudioPcmBuffer::readData(char *stream, qint64 len)
 #endif
 }
 
+bool micMute = false;
 qint64 AudioPcmBuffer::writeData(const char* data, qint64 len)
 {
 	//qDebug() << "Got data:" << len;
 	if (dir == 0)
 	{
+		if (micMute)
+		{
+			return len;
+		}
 		pttOnPcmData((char*)data, 640);
 		return len;
 	}
@@ -338,4 +343,5 @@ static void muteSpeaker(char mute)
 
 static void muteRecorder(char mute)
 {
+	micMute = mute;
 }

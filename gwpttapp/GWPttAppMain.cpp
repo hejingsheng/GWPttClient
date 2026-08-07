@@ -9,6 +9,7 @@ GWPttAppMain::GWPttAppMain(QWidget *parent)
 {
 	isTempCall = false;
 	isSos = false;
+	isMeeting = false;
 	setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
 	ui.setupUi(this);
 }
@@ -223,6 +224,24 @@ void GWPttAppMain::onPttClientEvent(int event, void *data)
 			emit nameChangeOrRecvInfo(7, str);
 		}
 	}
+	else if (event == PTT_CLIENT_EVENT_MEETING)
+	{
+		if (data != nullptr)
+		{
+			GWPttMeetingEventData *meeting = (GWPttMeetingEventData*)data;
+			if (meeting->action == 10)
+			{
+				QString meetingName = meeting->meetingName;
+				int meedingId = meeting->meetingId;
+				bool autoAccept = meeting->autoAccept;
+				emit meetingInvite(meedingId, meetingName, autoAccept);
+			}
+			else
+			{
+				// not process
+			}
+		}
+	}
 }
 
 void GWPttAppMain::initView()
@@ -252,6 +271,7 @@ void GWPttAppMain::initEvent()
 	connect(ui.btnSwitchGrp, &QPushButton::clicked, this, &GWPttAppMain::switchGroup);
 	connect(ui.btnPTT, &QPushButton::pressed, this, &GWPttAppMain::onPttPressed);
 	connect(ui.btnPTT, &QPushButton::released, this, &GWPttAppMain::onPttReleased);
+	connect(ui.btnMeeting, &QPushButton::clicked, this, &GWPttAppMain::onMeeting);
 	connect(ui.btnQueryUser, &QPushButton::clicked, this, &GWPttAppMain::queryUser);
 	connect(ui.btnTempCall, &QPushButton::clicked, this, &GWPttAppMain::tempCall);
 	connect(ui.btnLogout, &QPushButton::clicked, this, &GWPttAppMain::logout);
@@ -280,6 +300,7 @@ void GWPttAppMain::initEvent()
 		close();
 	});
 	connect(this, &GWPttAppMain::tmpCallInfo, this, &GWPttAppMain::onTempCall);
+	connect(this, &GWPttAppMain::meetingInvite, this, &GWPttAppMain::onMeetingInvite);
 	connect(this, &GWPttAppMain::nameChangeOrRecvInfo, this, [this](int type, QString data) {
 		if (type == 0)
 		{
@@ -592,6 +613,27 @@ void GWPttAppMain::onTempCall(const int data)
 	}
 }
 
+void GWPttAppMain::onMeetingInvite(int mid, const QString &name, bool autoAccept)
+{
+	if (isMeeting)
+	{
+		return;
+	}
+	showMeetingDialog(mid, name, autoAccept);
+}
+
+void GWPttAppMain::showMeetingDialog(int mid, const QString &name, bool autoAccept)
+{
+	GWPttMeeting *meetingDialog = new GWPttMeeting(name, mid, autoAccept);
+	isMeeting = true;
+	meetingDialog->init();
+
+	meetingDialog->exec();
+
+	delete meetingDialog;
+	isMeeting = false;
+}
+
 void GWPttAppMain::queryUser()
 {
 	QString num = ui.pageNumUsr->text();
@@ -638,4 +680,9 @@ void GWPttAppMain::onPttPressed()
 void GWPttAppMain::onPttReleased()
 {
 	GWPttClient::getPtt()->pttSpeak(1);
+}
+
+void GWPttAppMain::onMeeting()
+{
+	showMeetingDialog(-1, "", false);
 }

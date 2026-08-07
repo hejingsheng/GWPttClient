@@ -4,7 +4,7 @@
 #include "GWPttConfig.h"
 #include "GWPttQRCodeDialog.h"
 
-const QString GWAPP_VERSION = "GW_APP_V1.3.0";
+const QString GWAPP_VERSION = "GW_APP_V2.0.0";
 
 GWPTTLoginWidget::GWPTTLoginWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::GWPttLogin)
@@ -27,7 +27,7 @@ void GWPTTLoginWidget::initEvent()
 		dialog.setQRCodeString(deviceId);
 		dialog.exec();
 	});
-	connect(ui->boxSaveVoice, &QCheckBox::clicked, this, [this]() {});
+	connect(ui->checkBoxSaveVoice, &QCheckBox::clicked, this, [this]() {});
 	connect(this, &GWPTTLoginWidget::sendSignalToUI, this, &GWPTTLoginWidget::onLoginReport);
 	ConfigReader config;
 
@@ -41,11 +41,11 @@ void GWPTTLoginWidget::initEvent()
 	ui->editDeviceId->setText(deviceid);
 	if (save)
 	{
-		ui->boxSaveVoice->setChecked(true);
+		ui->checkBoxSaveVoice->setChecked(true);
 	}
 	else
 	{
-		ui->boxSaveVoice->setChecked(false);
+		ui->checkBoxSaveVoice->setChecked(false);
 	}
 }
 
@@ -60,13 +60,13 @@ void GWPTTLoginWidget::onLoginReport(int event, void *data)
 	int ret = (int)data;
 	if (ret == 0)
 	{
-		GWPttClient::getPtt()->registerObserver(nullptr);
+		GWPttClient::getPtt()->unregisterObserver(this);
 		GWPttAppMain *mainUi = new GWPttAppMain();
 		ConfigReader config;
 		config.writeValue("Server", "Address", ui->editAddress->text());
 		config.writeValue("Server", "Port", ui->editPort->text());
 		config.writeValue("Device", "Id", ui->editDeviceId->text());
-		config.writeValue("Device", "SaveVoice", ui->boxSaveVoice->isChecked() ? 1 : 0);
+		config.writeValue("Device", "SaveVoice", ui->checkBoxSaveVoice->isChecked() ? 1 : 0);
 		mainUi->init();
 		mainUi->show();
 	}
@@ -111,7 +111,7 @@ void GWPTTLoginWidget::loginPtt()
 	{
 		port = 23003;
 	}
-	bool saveVoice = ui->boxSaveVoice->isChecked();
+	bool saveVoice = ui->checkBoxSaveVoice->isChecked();
 	//qDebug() <<"data1:" << deviceId;
 	//qDebug() <<"data2:" << address;
 	//qDebug() <<"data3:" << password;

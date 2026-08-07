@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GWPttMeeting.cpp" />
     <ClCompile Include="GWPttQRCodeDialog.cpp" />
     <ClCompile Include="PcAudioDevice.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">input</DynamicSource>
@@ -186,10 +187,13 @@
     <QtUic Include="GWPttAppMain.ui" />
     <QtUic Include="GWPttEnterGrpDialog.ui" />
     <QtUic Include="gwpttlogin.ui" />
+    <QtUic Include="GWPttMeeting.ui" />
     <QtUic Include="GWPttQRCodeDialog.ui" />
   </ItemGroup>
   <ItemGroup>
-    <QtTranslation Include="Translation_en_US.ts" />
+    <QtTranslation Include="Translation_en_US.ts">
+      <SubType>Designer</SubType>
+    </QtTranslation>
     <QtTranslation Include="Translation_zh_CN.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +203,7 @@
     <ClInclude Include="cJSON.h" />
     <ClInclude Include="GWLog.h" />
     <QtMoc Include="GWPttQRCodeDialog.h" />
+    <QtMoc Include="GWPttMeeting.h" />
     <ClInclude Include="qrcodegen.hpp" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="GWPttAppMain.h" />

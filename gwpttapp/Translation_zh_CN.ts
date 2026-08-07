@@ -112,6 +112,11 @@
         <translation type="unfinished">按住讲话</translation>
     </message>
     <message>
+        <source>Meeting</source>
+        <translatorcomment>会议</translatorcomment>
+        <translation type="unfinished">会议</translation>
+    </message>
+    <message>
         <source>SOS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -167,6 +172,73 @@
         <source>SaveVoice</source>
         <translatorcomment>保存录音</translatorcomment>
         <translation type="unfinished">保存录音</translation>
+    </message>
+</context>
+<context>
+    <name>GWPttMeetingClass</name>
+    <message>
+        <source>GWPttMeeting</source>
+        <translatorcomment>会议</translatorcomment>
+        <translation type="unfinished">会议</translation>
+    </message>
+    <message>
+        <source>Create</source>
+        <translatorcomment>创建</translatorcomment>
+        <translation type="unfinished">创建</translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translatorcomment>退出</translatorcomment>
+        <translation type="unfinished">退出</translation>
+    </message>
+    <message>
+        <source>/99</source>
+        <translatorcomment>/99</translatorcomment>
+        <translation type="unfinished">/99</translation>
+    </message>
+    <message>
+        <source>Query</source>
+        <translatorcomment>查询</translatorcomment>
+        <translation type="unfinished">查询</translation>
+    </message>
+    <message>
+        <source>Reject</source>
+        <translatorcomment>拒绝</translatorcomment>
+        <translation type="unfinished">拒绝</translation>
+    </message>
+    <message>
+        <source>Join</source>
+        <translatorcomment>加入</translatorcomment>
+        <translation type="unfinished">加入</translation>
+    </message>
+    <message>
+        <source>QueryUser</source>
+        <translatorcomment>查询成员</translatorcomment>
+        <translation type="unfinished">查询成员</translation>
+    </message>
+    <message>
+        <source>Accept</source>
+        <translatorcomment>同意</translatorcomment>
+        <translation type="unfinished">同意</translation>
+    </message>
+    <message>
+        <source>00:00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MeetingID</source>
+        <translatorcomment>会议ID</translatorcomment>
+        <translation type="unfinished">会议ID</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translatorcomment>密码</translatorcomment>
+        <translation type="unfinished">密码</translation>
+    </message>
+    <message>
+        <source>Mute</source>
+         <translatorcomment>静音</translatorcomment>
+        <translation type="unfinished">静音</translation>
     </message>
 </context>
 <context>
