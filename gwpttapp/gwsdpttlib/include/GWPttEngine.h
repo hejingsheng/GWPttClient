@@ -27,6 +27,8 @@ DLL_EXPORT int pttSetCustomMalloc(memory_allocate alloc);
 
 DLL_EXPORT int pttInit(GWPttEvent cb, GWMsgEvent cb1, GWPttAudioModule *audioModule, char externalCodec, int encodeLevel, int framesize);
 
+DLL_EXPORT int pttInitFull(GWPttEvent cb, GWMsgEvent cb1, GWPttAudioModule *audioModule, char externalCodec, int encodeLevel, int framesize);
+
 DLL_EXPORT int pttInitWithoutAi(GWPttEvent cb, GWMsgEvent cb1, GWPttAudioModule *audioModule, char externalCodec, int encodeLevel, int framesize);
 
 DLL_EXPORT int pttSetLogCallback(int level, print_log_cb cb);
@@ -105,8 +107,6 @@ DLL_EXPORT int pttSpeak(int action, long long ms);
 
 DLL_EXPORT int pttRegOfflineMsg(int groups[], int types[], int num, char security);
 
-DLL_EXPORT int pttRegOnlineMsg(int groups[], int types[], int num, char security);
-
 DLL_EXPORT int pttSendMsg(int sid, const char *snm, int type, int id, const char *rnm, int msgType, const char *content, const char *thumburl, int time);
 
 DLL_EXPORT int pttSendTextMsg(int rid,int type,const char *content);
@@ -115,7 +115,7 @@ DLL_EXPORT int pttReportLocationGps(double lat, double lon,int type,int uid);
 
 DLL_EXPORT int pttReportLocationCell(int cellid, int lac, int mode, char *mcc, char *mnc,int type,int uid);
 
-DLL_EXPORT int pttReportLocationWifi(char *bssid, int signal, char *ssid);
+DLL_EXPORT int pttReportLocationWifi(char *macaddr,char *ssid_info,int type,int uid);
 
 DLL_EXPORT int pttGetWeather(int cellid, int lac, int mode, char *mcc, char *mnc);
 
@@ -131,8 +131,6 @@ DLL_EXPORT int pttHeart(int battery, const char *net);
 
 DLL_EXPORT int pttSendSos(int sid, const char *sname, int rid, const char *rname, int type, double lat, double lon, char hasLoc, char status);
 
-DLL_EXPORT int pttSendSelfMsg(int id, int type, char *selfmsg, char offline);
-
 DLL_EXPORT int pttVoiceToggle(int dir, int open);
 
 DLL_EXPORT int pttLogout(void);
@@ -144,28 +142,6 @@ DLL_EXPORT int pttOnFarPcmData(char *pcm, int len);
 DLL_EXPORT int pttOnEncodeData(char *enc, int len);
 
 DLL_EXPORT int pttUpdateLeftVoicePacket(int num);
-
-DLL_EXPORT int pttAddFriend(int uid);
-
-DLL_EXPORT int pttQueryFriends(int type);
-
-DLL_EXPORT int pttDelFriend(int uid);
-
-DLL_EXPORT int pttAcceptAddFriend(int uid);
-
-DLL_EXPORT int pttRejectAddFriend(int uid);
-
-DLL_EXPORT int pttQueryChatGroups(int uid);
-
-DLL_EXPORT int pttQueryGroupDetail(int gid, int type);
-
-DLL_EXPORT int pttActiveSession(int sid, int type);
-
-DLL_EXPORT int pttDeactiveSession(int sid, int type);
-
-DLL_EXPORT int pttDeleteSession(int sid, int type);
-
-DLL_EXPORT int pttQueryMsgDetail(int gid, int type, char *msgid);
 
 DLL_EXPORT int pttEnterAI(int role, char hasloc, double lat, double lon);
 

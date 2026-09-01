@@ -1492,7 +1492,7 @@ void GWPttClient::unregisterObserver(GWPttClientCallback *cb)
 void GWPttClient::initPttMain(QString &account, QString &password, QString &address, int port, bool saveVoice)
 {
 	pttAudioDevice = pcInitAudioDevice(GW_PTT_AUDIO_SAMPLERATE, GW_PTT_AUDIO_BITS, GW_PTT_AUDIO_CHANNELS);
-	pttInit(onGWPttEvent, onGWMsgEvent, pttAudioDevice, 0, GW_PTT_ENCODE_LEVEL_HIGH, 0);
+	pttInitFull(onGWPttEvent, onGWMsgEvent, pttAudioDevice, 0, GW_PTT_ENCODE_LEVEL_HIGH, 0);
 	if (saveVoice)
 	{
 		pttSaveVoice(1, (char*)"voice");

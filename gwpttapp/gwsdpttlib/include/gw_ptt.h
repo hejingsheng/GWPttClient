@@ -213,9 +213,8 @@ typedef struct
 
 typedef struct
 {
-	char *bssid;
-	int signal;
-	char *ssid;
+	char macaddr[20];
+	char ssid_info[256];
 }GWLocWifi;
 
 typedef struct
@@ -313,20 +312,6 @@ int gwPttGroupRename(int gid, const char *gname);
 int gwPttGroupExit(int gid);
 
 int gwPttEnterGroup(int gid);
-
-int gwPttOperateFriend(int operate, int uid);
-
-int gwPttQueryChatGroups(int uid);
-
-int gwPttQueryGroupDetail(int gid, int type);
-
-int gwPttActiveSession(int sid, int type);
-
-int gwPttDeactiveSession(int sid, int type);
-
-int gwPttDeleteSession(int sid, int type);
-
-int gwPttQueryMsgDetail(int gid, int type, char *msgid);
 
 int gwPttTempGroup(int *uids, int num);
 
