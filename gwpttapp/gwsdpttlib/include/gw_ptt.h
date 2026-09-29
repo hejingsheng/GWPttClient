@@ -249,6 +249,8 @@ int gwPttNetCheck(int type, char *host, int port);
 
 int gwPttEnableMsg(int enable);
 
+int gwPttGetErrorCode(void);
+
 int gwPttLogin(const char *account, const char *pass, const char *imei, const char *iccid);
 
 int gwPttQueryGroup(void);

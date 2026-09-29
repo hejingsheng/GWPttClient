@@ -45,6 +45,8 @@ DLL_EXPORT char *pttGetVersion(void);
 
 DLL_EXPORT unsigned int pttGetTime(void);
 
+DLL_EXPORT int pttGetErrorCode(void);
+
 DLL_EXPORT int pttConfigServer(int type, char *host, int port);
 
 DLL_EXPORT int pttSaveVoice(int open, char *path);
